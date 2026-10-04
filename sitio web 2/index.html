@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Costa Rica Urban Home | San Carlos & Real Estate</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            300: '#fde047',
+                            400: '#eab308',
+                            500: '#d97706',
+                            600: '#b45309',
+                            700: '#92400e'
+                        },
+                        emerald: {
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                            950: '#022c22'
+                        },
+                        slate: {
+                            850: '#131c2e',
+                            950: '#0b0f19'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        display: ['Cinzel', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .hero-bg-dark {
+            background-image: linear-gradient(180deg, rgba(11, 15, 25, 0.82) 0%, rgba(11, 15, 25, 0.96) 100%), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        .emerald-glow {
+            box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.25);
+        }
+        .glass-card {
+            background: rgba(19, 28, 46, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .property-card-hover {
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .property-card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -15px rgba(16, 185, 129, 0.3);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased flex flex-col min-h-screen selection:bg-amber-400 selection:text-slate-950 w-full overflow-x-hidden">
+
+    <div class="bg-slate-900 border-b border-emerald-900/50 text-slate-300 text-xs py-2.5 px-4 shadow-sm w-full">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center space-x-4 flex-wrap justify-center">
+                <a href="tel:+50688507858" class="hover:text-amber-400 transition flex items-center gap-1.5 font-medium">
+                    <i class="fa-solid fa-phone text-amber-400"></i> +506 8850 7858
+                </a>
+                <span class="hidden sm:inline text-slate-700">|</span>
+                <a href="tel:+50683041422" class="hover:text-amber-400 transition flex items-center gap-1.5 font-medium">
+                    <i class="fa-solid fa-phone text-amber-400"></i> +506 8304 1422
+                </a>
+                <span class="hidden md:inline text-slate-700">|</span>
+                <a href="mailto:luisg.rsolis@gmail.com" class="hidden md:flex items-center gap-1.5 hover:text-amber-400 transition font-medium">
+                    <i class="fa-solid fa-envelope text-amber-400"></i> luisg.rsolis@gmail.com
+                </a>
+            </div>
+
+            <div class="flex items-center gap-3 flex-wrap justify-center">
+                <span class="text-xs text-slate-400 font-medium hidden lg:inline">
+                    <i class="fa-solid fa-location-dot text-amber-400"></i> San Carlos, Costa Rica
+                </span>
+                
+                <!-- Currency Toggle -->
+                <div class="bg-slate-950 rounded-lg p-0.5 border border-slate-800 flex text-xs">
+                    <button id="curr-usd" onclick="setCurrency('USD')" class="px-2.5 py-0.5 rounded font-bold text-slate-950 bg-amber-400 shadow">USD $</button>
+                    <button id="curr-crc" onclick="setCurrency('CRC')" class="px-2.5 py-0.5 rounded text-slate-400 hover:text-white">CRC ₡</button>
+                </div>
+
+                <!-- Language Toggle -->
+                <div class="bg-slate-950 rounded-lg p-0.5 border border-slate-800 flex text-xs">
+                    <button id="lang-en" onclick="setLanguage('en')" class="px-2 py-0.5 rounded text-slate-400 hover:text-white">EN 🇺🇸</button>
+                    <button id="lang-es" onclick="setLanguage('es')" class="px-2 py-0.5 rounded font-bold text-slate-950 bg-amber-400 shadow">ES 🇨🇷</button>
+                </div>
+
+                <!-- Admin Access Toggle -->
+                <button onclick="openAdminModal()" class="text-xs text-amber-300 hover:text-amber-200 bg-emerald-950/80 hover:bg-emerald-900 px-3 py-1 rounded-md border border-emerald-800 flex items-center gap-1.5 transition font-semibold">
+                    <i class="fa-solid fa-lock text-amber-400"></i>
+                    <span id="admin-btn-text" data-i18n="adminLogin">Acceso Propietario</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-active-bar" class="hidden bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 font-semibold px-4 py-2.5 text-xs text-center flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto w-full my-3 rounded-xl shadow-lg border border-amber-300 gap-2">
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-shield-halved text-base text-slate-950"></i>
+            <span data-i18n="adminActiveMsg" class="font-bold">Modo Propietario Activo - Puedes agregar o gestionar propiedades.</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="openAddPropertyModal()" class="bg-slate-950 text-amber-400 hover:bg-slate-900 px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 border border-amber-400/50 shadow">
+                <i class="fa-solid fa-plus text-amber-400"></i> <span data-i18n="addPropertyBtn">+ Agregar Propiedad</span>
+            </button>
+            <button onclick="logoutAdmin()" class="bg-red-800 text-white hover:bg-red-900 px-3 py-1.5 rounded-lg text-xs font-bold transition shadow">
+                <i class="fa-solid fa-right-from-bracket"></i> Salir
+            </button>
+        </div>
+    </div>
+
+    <header class="bg-slate-950/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-800 shadow-xl w-full">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-xl bg-emerald-950 border border-emerald-600 flex items-center justify-center text-amber-400 text-xl shadow-md shrink-0">
+                    <i class="fa-solid fa-mountain-city"></i>
+                </div>
+                <div>
+                    <span class="font-display font-extrabold text-base sm:text-lg tracking-wider text-slate-100 block leading-none">COSTA RICA</span>
+                    <span class="text-[9px] sm:text-[10px] text-amber-400 font-bold tracking-widest uppercase block mt-1">URBAN HOME &bull; REAL ESTATE</span>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex items-center space-x-7 text-xs font-bold tracking-widest uppercase text-slate-300">
+                <a href="#properties" class="hover:text-amber-400 transition" data-i18n="navProperties">Propiedades</a>
+                <a href="#why-cr" class="hover:text-amber-400 transition" data-i18n="navWhyCR">Invertir en Costa Rica</a>
+                <a href="#about" class="hover:text-amber-400 transition" data-i18n="navAbout">Nosotros</a>
+                <a href="#contact" class="hover:text-amber-400 transition" data-i18n="navContact">Contacto</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <a href="https://wa.me/50688507858?text=Hola%20Costa%20Rica%20Urban%20Home,%20estoy%20interesado%20en%20comprar%20una%20propiedad." target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-lg transition flex items-center gap-2 border border-emerald-400/30">
+                    <i class="fa-brands fa-whatsapp text-base text-amber-300"></i>
+                    <span class="hidden sm:inline" data-i18n="contactWhatsApp">WhatsApp Directo</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-bg-dark text-white py-16 lg:py-24 px-4 relative flex items-center justify-center min-h-[580px] border-b border-slate-800">
+        <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
+            <div class="flex justify-center">
+                <img src="logo.png" alt="Costa Rica Urban Home" class="w-28 h-28 sm:w-36 sm:h-36 rounded-full object-cover border-2 border-amber-400/40 shadow-2xl" loading="eager">
+            </div>
+            
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-amber-400/40 text-amber-300 text-xs uppercase tracking-widest font-bold shadow-lg">
+                <i class="fa-solid fa-gem text-amber-400"></i>
+                <span data-i18n="heroBadge">Propiedades de Lujo & Inversión en Costa Rica</span>
+            </div>
+            
+            <h1 class="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-slate-100 leading-tight" data-i18n="heroTitle">
+                Casas, Quintas y Terrenos Exclusivos en Costa Rica
+            </h1>
+            
+            <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto font-normal leading-relaxed" data-i18n="heroSub">
+                Asesoría experta para compradores de Estados Unidos y clientes locales. Encuentra tu refugio o proyecto rentable en San Carlos, La Fortuna y zonas de alta plusvalía.
+            </p>
+
+            <!-- Search Filter Bar -->
+            <div class="glass-card p-5 rounded-2xl shadow-2xl text-slate-200 mt-8 max-w-3xl mx-auto border border-emerald-500/30 emerald-glow">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-400 text-left mb-1.5" data-i18n="filterTypeLabel">Tipo de Propiedad</label>
+                        <select id="filter-type" onchange="filterProperties()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:border-amber-400 focus:outline-none font-medium">
+                            <option value="all" data-i18n="optAllTypes">Todos los Tipos</option>
+                            <option value="Casa" data-i18n="optHouses">Casas / Residencia</option>
+                            <option value="Villa" data-i18n="optVillas">Villas de Lujo</option>
+                            <option value="Terreno" data-i18n="optLand">Terrenos / Lotes</option>
+                            <option value="Finca" data-i18n="optFarms">Fincas / Quintas</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-400 text-left mb-1.5" data-i18n="filterLocLabel">Ubicación</label>
+                        <select id="filter-location" onchange="filterProperties()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:border-amber-400 focus:outline-none font-medium">
+                            <option value="all" data-i18n="optAllLocs">Todas las Ubicaciones</option>
+                            <option value="San Carlos">San Carlos / Ciudad Quesada</option>
+                            <option value="La Fortuna">La Fortuna / Arenal</option>
+                            <option value="Valle Central">Valle Central</option>
+                            <option value="Playa / Costa">Guanacaste / Costa</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-400 text-left mb-1.5" data-i18n="filterPriceLabel">Precio Máximo (USD)</label>
+                        <select id="filter-price" onchange="filterProperties()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:border-amber-400 focus:outline-none font-medium">
+                            <option value="all" data-i18n="optAnyPrice">Cualquier Precio</option>
+                            <option value="150000">&lt; $150,000</option>
+                            <option value="300000">&lt; $300,000</option>
+                            <option value="500000">&lt; $500,000</option>
+                            <option value="1000000">&lt; $1,000,000</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-slate-900 border-b border-slate-800 py-8 px-4 w-full">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 text-center md:text-left">
+            <div class="flex items-center gap-4 justify-center md:justify-start">
+                <div class="w-12 h-12 rounded-xl bg-emerald-950 border border-emerald-700/60 flex items-center justify-center text-amber-400 text-xl shrink-0 shadow-md">
+                    <i class="fa-solid fa-passport"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-200" data-i18n="trustTitle1">Propietario Extranjero 100% Legal</h4>
+                    <p class="text-xs text-slate-400 mt-0.5" data-i18n="trustDesc1">Mismos derechos de título que los ciudadanos de CR.</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 justify-center md:justify-start">
+                <div class="w-12 h-12 rounded-xl bg-emerald-950 border border-emerald-700/60 flex items-center justify-center text-amber-400 text-xl shrink-0 shadow-md">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-200" data-i18n="trustTitle2">Asesoría Legal y Escrow</h4>
+                    <p class="text-xs text-slate-400 mt-0.5" data-i18n="trustDesc2">Traspaso de propiedad seguro e impecable.</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 justify-center md:justify-start">
+                <div class="w-12 h-12 rounded-xl bg-emerald-950 border border-emerald-700/60 flex items-center justify-center text-amber-400 text-xl shrink-0 shadow-md">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-200" data-i18n="trustTitle3">Residencia de Inversionista</h4>
+                    <p class="text-xs text-slate-400 mt-0.5" data-i18n="trustDesc3">Califica a residencia desde $150k USD.</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 justify-center md:justify-start">
+                <div class="w-12 h-12 rounded-xl bg-emerald-950 border border-emerald-700/60 flex items-center justify-center text-amber-400 text-xl shrink-0 shadow-md">
+                    <i class="fa-solid fa-headset"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-slate-200" data-i18n="trustTitle4">Atención Bilingüe Personal</h4>
+                    <p class="text-xs text-slate-400 mt-0.5" data-i18n="trustDesc4">Acompañamiento de principio a fin.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="properties" class="py-16 px-4 max-w-7xl mx-auto w-full flex-grow">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4 border-b border-slate-800 pb-6">
+            <div>
+                <span class="text-xs font-bold tracking-widest text-amber-400 uppercase" data-i18n="secPropSub">Catálogo Exclusivo</span>
+                <h2 class="text-3xl font-serif font-bold text-white mt-1" data-i18n="secPropTitle">Propiedades Disponibles</h2>
+                <p class="text-slate-400 text-xs sm:text-sm mt-1" data-i18n="secPropDesc">Explora nuestro inventario verificado en San Carlos y zonas turísticas de Costa Rica.</p>
+            </div>
+
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0">
+                <button onclick="setTab('all')" id="tab-all" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 whitespace-nowrap shadow">
+                    <span data-i18n="tabAll">Todas</span>
+                </button>
+                <button onclick="setTab('featured')" id="tab-featured" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300 whitespace-nowrap">
+                    <span data-i18n="tabFeatured">Destacadas</span>
+                </button>
+                <button onclick="setTab('sold')" id="tab-sold" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300 whitespace-nowrap">
+                    <span data-i18n="tabSold">Vendidas / Histórico</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="properties-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Rendered dynamically by JavaScript -->
+        </div>
+
+        <div id="no-properties-msg" class="hidden text-center py-16 bg-slate-900/60 rounded-2xl border border-dashed border-slate-800">
+            <i class="fa-solid fa-house-circle-xmark text-4xl text-slate-600 mb-3 block"></i>
+            <h3 class="text-lg font-bold text-slate-300" data-i18n="noPropsTitle">No se encontraron propiedades</h3>
+            <p class="text-xs text-slate-500 mt-1" data-i18n="noPropsDesc">Intenta cambiando los filtros o contáctanos directamente para buscar propiedades personalizadas.</p>
+        </div>
+    </section>
+
+    <section id="why-cr" class="bg-gradient-to-b from-slate-900 via-emerald-950 to-slate-950 py-20 px-4 border-t border-b border-emerald-900/50 relative overflow-hidden w-full">
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="text-xs font-bold uppercase tracking-widest text-amber-400" data-i18n="whySub">Oportunidad de Inversión</span>
+                    <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white leading-tight" data-i18n="whyTitle">
+                        ¿Por qué comprar propiedades en Costa Rica y San Carlos?
+                    </h2>
+                    <p class="text-slate-300 leading-relaxed text-xs sm:text-sm font-normal" data-i18n="whyDesc">
+                        Costa Rica es reconocida mundialmente por su estabilidad política, seguridad legal para inversionistas extranjeros y calidad de vida excepcional (Pura Vida). San Carlos y La Fortuna se han consolidado como el epicentro de inversión turística, ecológica y de retiro.
+                    </p>
+
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-start gap-3.5">
+                            <div class="w-9 h-9 rounded-xl bg-emerald-900/80 text-amber-400 border border-emerald-700/60 flex items-center justify-center shrink-0 mt-1 shadow-md">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-white" data-i18n="whyPoint1Title">Alto Retorno de Inversión (Airbnb / Rentas)</h4>
+                                <p class="text-xs text-slate-400 mt-0.5" data-i18n="whyPoint1Desc">Propiedades cerca del Volcán Arenal generan ingresos sostenidos en dólares todo el año.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3.5">
+                            <div class="w-9 h-9 rounded-xl bg-emerald-900/80 text-amber-400 border border-emerald-700/60 flex items-center justify-center shrink-0 mt-1 shadow-md">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-white" data-i18n="whyPoint2Title">Derechos Garantizados para Estadounidenses</h4>
+                                <p class="text-xs text-slate-400 mt-0.5" data-i18n="whyPoint2Desc">No requiere ser residente ni ciudadano para adquirir propiedades registradas a su nombre.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3.5">
+                            <div class="w-9 h-9 rounded-xl bg-emerald-900/80 text-amber-400 border border-emerald-700/60 flex items-center justify-center shrink-0 mt-1 shadow-md">
+                                <i class="fa-solid fa-mountain-sun"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-white" data-i18n="whyPoint3Title">San Carlos: La Joya Inmobiliaria de Costa Rica</h4>
+                                <p class="text-xs text-slate-400 mt-0.5" data-i18n="whyPoint3Desc">Clima ideal, aguas termales, plusvalía sostenida y cercanía a infraestructura de primer nivel.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <a href="https://wa.me/50688507858?text=Hola%20Luis,%20quisiera%20asesoria%20sobre%20invertir%20en%20Costa%20Rica." target="_blank" class="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold px-6 py-3 rounded-xl transition shadow-xl text-xs">
+                            <i class="fa-solid fa-comments"></i> <span data-i18n="whyCTA">Solicitar Asesoría de Inversión Gratis</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop" alt="Costa Rica Nature" class="rounded-2xl shadow-2xl object-cover h-64 w-full border border-emerald-800">
+                    <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=800&auto=format&fit=crop" alt="Luxury Villa" class="rounded-2xl shadow-2xl object-cover h-64 w-full mt-6 border border-amber-500/30">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-20 px-4 bg-slate-950 w-full">
+        <div class="max-w-5xl mx-auto glass-card border border-slate-800 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+            <div class="flex flex-col md:flex-row items-center gap-8 relative z-10">
+                <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br from-emerald-900 to-slate-900 border-4 border-amber-400 flex flex-col items-center justify-center text-amber-400 shadow-2xl shrink-0">
+                    <i class="fa-solid fa-user-tie text-4xl mb-1"></i>
+                    <span class="text-[10px] tracking-widest font-bold uppercase text-slate-200">Asesor</span>
+                </div>
+
+                <div class="space-y-4 text-center md:text-left">
+                    <div class="inline-block bg-emerald-950 border border-emerald-700/60 text-amber-400 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow" data-i18n="aboutBadge">Fundador & Asesor Inmobiliario</div>
+                    <h3 class="text-2xl sm:text-3xl font-serif font-bold text-white">Luis G. Rodríguez Solís</h3>
+                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed" data-i18n="aboutText">
+                        Con base en San Carlos, Costa Rica, en **Costa Rica Urban Home** nos dedicamos a conectar compradores locales e internacionales con las mejores oportunidades inmobiliarias del país. Brindamos un acompañamiento transparente, honesto y directo para asegurar que cada transacción sea una excelente inversión y un proceso libre de estrés.
+                    </p>
+
+                    <div class="flex flex-wrap gap-3 pt-2 justify-center md:justify-start text-xs font-semibold text-slate-300">
+                        <div class="bg-slate-900 px-3.5 py-2 rounded-xl border border-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-envelope text-amber-400"></i> luisg.rsolis@gmail.com
+                        </div>
+                        <div class="bg-slate-900 px-3.5 py-2 rounded-xl border border-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-phone text-amber-400"></i> +506 8850 7858
+                        </div>
+                        <div class="bg-slate-900 px-3.5 py-2 rounded-xl border border-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-phone text-amber-400"></i> +506 8304 1422
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-16 px-4 bg-slate-900 border-t border-slate-800 w-full">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div class="space-y-6">
+                <span class="text-xs font-bold uppercase tracking-widest text-amber-400" data-i18n="contactSub">Contacto Directo</span>
+                <h2 class="text-3xl font-serif font-bold text-white" data-i18n="contactTitle">¿Quieres Comprar o Vender una Propiedad?</h2>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed" data-i18n="contactDesc">
+                    Escríbenos o llámanos hoy mismo. Si eres un comprador de Estados Unidos o Costa Rica, te ayudamos a encontrar la propiedad ideal según tu presupuesto y preferencias.
+                </p>
+
+                <div class="space-y-4 pt-2">
+                    <a href="tel:+50688507858" class="flex items-center gap-4 p-4 bg-slate-950 rounded-2xl border border-slate-800 hover:border-amber-400/50 transition shadow-md">
+                        <div class="w-12 h-12 bg-emerald-950 rounded-xl flex items-center justify-center text-amber-400 text-xl border border-emerald-800">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-400 block uppercase tracking-wider" data-i18n="lblPhone">Teléfono Principal</span>
+                            <span class="font-bold text-white text-base">+506 8850 7858</span>
+                        </div>
+                    </a>
+
+                    <a href="tel:+50683041422" class="flex items-center gap-4 p-4 bg-slate-950 rounded-2xl border border-slate-800 hover:border-amber-400/50 transition shadow-md">
+                        <div class="w-12 h-12 bg-emerald-950 rounded-xl flex items-center justify-center text-amber-400 text-xl border border-emerald-800">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-400 block uppercase tracking-wider" data-i18n="lblAltPhone">Teléfono Secundario</span>
+                            <span class="font-bold text-white text-base">+506 8304 1422</span>
+                        </div>
+                    </a>
+
+                    <a href="mailto:luisg.rsolis@gmail.com" class="flex items-center gap-4 p-4 bg-slate-950 rounded-2xl border border-slate-800 hover:border-amber-400/50 transition shadow-md">
+                        <div class="w-12 h-12 bg-emerald-950 rounded-xl flex items-center justify-center text-amber-400 text-xl border border-emerald-800">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-400 block uppercase tracking-wider" data-i18n="lblEmail">Correo Electrónico</span>
+                            <span class="font-bold text-white text-base">luisg.rsolis@gmail.com</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Client Lead Form -->
+            <div class="glass-card p-8 rounded-3xl border border-slate-800 shadow-2xl">
+                <h3 class="text-xl font-serif font-bold text-white mb-1" data-i18n="formTitle">Envíanos un Mensaje</h3>
+                <p class="text-xs text-slate-400 mb-6" data-i18n="formSub">Te responderemos a la brevedad posible.</p>
+
+                <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1" data-i18n="formName">Nombre Completo</label>
+                        <input type="text" id="contact-name" required placeholder="John Smith / María Rodríguez" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:border-amber-400 focus:outline-none font-medium">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-1" data-i18n="formEmail">Correo Electrónico</label>
+                            <input type="email" id="contact-email" required placeholder="john@example.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:border-amber-400 focus:outline-none font-medium">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-1" data-i18n="formPhone">Teléfono / WhatsApp</label>
+                            <input type="tel" id="contact-phone" placeholder="+1 (555) 000-0000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:border-amber-400 focus:outline-none font-medium">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1" data-i18n="formInterest">Interés Principal</label>
+                        <select id="contact-interest" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:border-amber-400 focus:outline-none font-medium">
+                            <option value="Comprar Residencia" data-i18n="optInterest1">Deseo comprar una casa / villa</option>
+                            <option value="Comprar Terreno" data-i18n="optInterest2">Deseo comprar un terreno / quinta</option>
+                            <option value="Inversión Airbnb" data-i18n="optInterest3">Busco propiedad de inversión (ROI)</option>
+                            <option value="Vender mi propiedad" data-i18n="optInterest4">Quiero que vendan mi propiedad</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1" data-i18n="formMsg">Mensaje</label>
+                        <textarea id="contact-msg" rows="4" required placeholder="Hola Luis, busco una casa en San Carlos con presupuesto de $250,000..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:border-amber-400 focus:outline-none font-medium"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2 border border-emerald-400/30">
+                        <i class="fa-solid fa-paper-plane text-amber-300"></i> <span data-i18n="btnSendMsg">Enviar Consulta por WhatsApp</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-950 text-slate-400 text-xs py-12 px-4 border-t border-slate-800 w-full">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-950 border border-emerald-700 flex items-center justify-center text-amber-400 shadow shrink-0">
+                    <i class="fa-solid fa-mountain-city text-base"></i>
+                </div>
+                <div>
+                    <span class="font-display font-bold text-sm sm:text-base text-white block tracking-wider">COSTA RICA URBAN HOME</span>
+                    <p class="text-[10px] text-slate-500">San Carlos, Costa Rica &bull; Real Estate & Property Investments</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-6 text-slate-400 text-xs flex-wrap justify-center">
+                <a href="#properties" class="hover:text-amber-400 transition" data-i18n="navProperties">Propiedades</a>
+                <a href="#why-cr" class="hover:text-amber-400 transition" data-i18n="navWhyCR">Invertir</a>
+                <a href="#contact" class="hover:text-amber-400 transition" data-i18n="navContact">Contacto</a>
+                <button onclick="openAdminModal()" class="text-amber-400 hover:underline flex items-center gap-1 font-semibold">
+                    <i class="fa-solid fa-lock text-xs"></i> <span data-i18n="footerOwnerAccess">Acceso Propietario</span>
+                </button>
+            </div>
+
+            <div class="text-center md:text-right text-slate-500 text-[11px]">
+                &copy; <span id="year">2026</span> Costa Rica Urban Home. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <div id="admin-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-800">
+            <div class="text-center space-y-3">
+                <div class="w-14 h-14 bg-emerald-950 text-amber-400 rounded-2xl border border-emerald-700 flex items-center justify-center mx-auto text-2xl shadow-md">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h3 class="text-xl font-serif font-bold text-white" data-i18n="adminModalTitle">Acceso de Propietario</h3>
+                <p class="text-xs text-slate-400" data-i18n="adminModalSub">Ingresa el PIN de administrador para agregar o eliminar propiedades.</p>
+
+                <form onsubmit="verifyAdminPIN(event)" class="space-y-4 pt-2">
+                    <div>
+                        <input type="password" id="admin-pin" placeholder="PIN" required maxlength="4" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-center text-lg font-bold tracking-widest text-amber-400 focus:border-amber-400 focus:outline-none">
+                    </div>
+
+                    <div id="admin-error-msg" class="hidden text-xs text-red-400 font-bold">PIN Incorrecto. Intenta de nuevo.</div>
+
+                    <div class="flex gap-2">
+                        <button type="button" onclick="closeAdminModal()" class="w-1/2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-2.5 rounded-xl text-xs transition">Cancelar</button>
+                        <button type="submit" class="w-1/2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition shadow">Ingresar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="add-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-800 my-8 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-emerald-950 text-amber-400 rounded-xl border border-emerald-700 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-house-medical"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-serif font-bold text-white" data-i18n="addModalTitle">Agregar Nueva Propiedad</h3>
+                        <p class="text-xs text-slate-400" data-i18n="addModalSub">Esta propiedad aparecerá inmediatamente en el catálogo público.</p>
+                    </div>
+                </div>
+                <button onclick="closeAddPropertyModal()" class="text-slate-400 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form onsubmit="saveNewProperty(event)" class="space-y-4 text-xs">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1" data-i18n="addTitleEs">Título de la Propiedad (Español)</label>
+                        <input type="text" id="prop-title-es" required placeholder="Ej. Casa Moderna con Vista al Volcán" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-400 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1" data-i18n="addTitleEn">Title (English for US buyers)</label>
+                        <input type="text" id="prop-title-en" required placeholder="Ej. Modern Villa with Volcano Views" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-400 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1" data-i18n="addPrice">Precio (USD $)</label>
+                        <input type="number" id="prop-price" required placeholder="250000" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-400 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1" data-i18n="addType">Tipo de Propiedad</label>
+                        <select id="prop-type" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-400 focus:outline-none">
+                            <option value="Casa">Casa / Residencia</option>
+                            <option value="Villa">Villa de Lujo</option>
+                            <option value="Terreno">Terreno / Lote</option>
+                            <option value="Finca">Finca / Quinta</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1" data-i18n="addLocation">Ubicación</label>
+                        <input type="text" id="prop-location" required placeholder="Ej. La Fortuna, San Carlos" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-400 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1" data-i18n="addBeds">Habitaciones</label>
+                        <input type="number" id="prop-beds" min="0" value="3" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-400 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1" data-i18n="addBaths">Baños</label>
+                        <input type="number" id="prop-baths" min="0" value="2" step="0.5" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-400 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1" data-i18n="addArea">Área / Lote (m²)</label>
+                        <input type="text" id="prop-area" placeholder="Ej. 1,200 m²" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-400 focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1" data-i18n="addImage">Imagen de la Propiedad</label>
+                    <input type="file" id="prop-image-file" accept="image/jpeg,image/png,image/webp,image/gif" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white file:mr-3 file:rounded-lg file:border-0 file:bg-amber-400 file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-slate-950 hover:file:bg-amber-300 focus:border-amber-400 focus:outline-none">
+                    <input type="hidden" id="prop-image">
+                    <span class="text-[10px] text-slate-500 mt-0.5 block" data-i18n="addImageHint">Selecciona una imagen directamente desde la galería de tu dispositivo. Máximo 10 MB.</span>
+                    <div id="prop-image-preview-wrap" class="hidden mt-3 rounded-xl overflow-hidden border border-slate-700 bg-slate-950">
+                        <img id="prop-image-preview" src="" alt="Vista previa" class="w-full h-48 object-cover">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1" data-i18n="addDesc">Descripción de la Propiedad</label>
+                    <textarea id="prop-desc" rows="3" placeholder="Hermosa quinta con piscina, amplio jardín con frutales y vista panorámica..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-400 focus:outline-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-300 mb-1" data-i18n="addDescEn">Descripción de la Propiedad (Inglés)</label>
+                    <textarea id="prop-desc-en" rows="3" placeholder="Beautiful property with pool, garden and panoramic views..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:border-amber-400 focus:outline-none"></textarea>
+                </div>
+
+                <div class="flex items-center gap-2 pt-1">
+                    <input type="checkbox" id="prop-featured" class="w-4 h-4 rounded text-emerald-600 bg-slate-950 border-slate-700">
+                    <label for="prop-featured" class="font-bold text-slate-300" data-i18n="addFeatured">Marcar como propiedad Destacada</label>
+                </div>
+
+                <div class="flex gap-3 pt-4 border-t border-slate-800">
+                    <button type="button" onclick="closeAddPropertyModal()" class="w-1/2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-2.5 rounded-xl transition" data-i18n="addCancel">Cancelar</button>
+                    <button type="submit" id="btn-save-prop" class="w-1/2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl transition shadow flex items-center justify-center gap-2 border border-emerald-400/30">
+                        <i class="fa-solid fa-cloud-arrow-up text-amber-300"></i> <span data-i18n="addPublish">Publicar Propiedad</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="details-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 rounded-3xl max-w-3xl w-full shadow-2xl border border-slate-800 overflow-hidden my-8 max-h-[90vh] flex flex-col text-slate-100">
+            <div class="relative h-64 sm:h-80 bg-slate-950 shrink-0">
+                <img id="modal-img" src="" alt="Property" class="w-full h-full object-cover">
+                <button onclick="closeDetailsModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-900/80 hover:bg-slate-900 text-white flex items-center justify-center transition border border-slate-700 shadow">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div id="modal-status-badge" class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
+                    En Venta
+                </div>
+            </div>
+
+            <div class="p-6 sm:p-8 overflow-y-auto space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
+                    <div>
+                        <span id="modal-location" class="text-xs font-bold text-amber-400 uppercase tracking-widest block"></span>
+                        <h2 id="modal-title" class="text-2xl font-serif font-bold text-white mt-1"></h2>
+                    </div>
+                    <div id="modal-price" class="text-2xl font-bold text-amber-400"></div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-4 bg-slate-950 p-4 rounded-2xl border border-slate-800 text-center">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-slate-400 block" data-i18n="lblBeds">Habitaciones</span>
+                        <span id="modal-beds" class="font-bold text-white text-base"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-slate-400 block" data-i18n="lblBaths">Baños</span>
+                        <span id="modal-baths" class="font-bold text-white text-base"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-slate-400 block" data-i18n="lblArea">Área</span>
+                        <span id="modal-area" class="font-bold text-white text-base"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-2" data-i18n="lblDesc">Descripción</h4>
+                    <p id="modal-desc" class="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal"></p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-800">
+                    <a id="modal-wa-btn" href="#" target="_blank" class="w-full sm:w-1/2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition text-xs text-center flex items-center justify-center gap-2 shadow border border-emerald-400/30">
+                        <i class="fa-brands fa-whatsapp text-base text-amber-300"></i> <span data-i18n="btnInquireWA">Consultar por WhatsApp</span>
+                    </a>
+                    <a href="tel:+50688507858" class="w-full sm:w-1/2 bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl transition text-xs text-center flex items-center justify-center gap-2 border border-slate-700">
+                        <i class="fa-solid fa-phone text-base text-amber-400"></i> <span data-i18n="btnCallAgent">Llamar al Agente (+506 8850 7858)</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const i18n = {
+            es: {
+                adminLogin: "Acceso Propietario",
+                adminActiveMsg: "Modo Propietario Activo - Puedes agregar nuevas propiedades o gestionar las existentes.",
+                addPropertyBtn: "+ Agregar Propiedad",
+                navProperties: "Propiedades",
+                navWhyCR: "Invertir en Costa Rica",
+                navAbout: "Nosotros",
+                navContact: "Contacto",
+                contactWhatsApp: "WhatsApp Directo",
+                heroBadge: "Propiedades de Lujo & Inversión en Costa Rica",
+                heroTitle: "Casas, Quintas y Terrenos Exclusivos en Costa Rica",
+                heroSub: "Asesoría experta para compradores de Estados Unidos y clientes locales. Encuentra tu refugio o proyecto rentable en San Carlos, La Fortuna y zonas de alta plusvalía.",
+                filterTypeLabel: "Tipo de Propiedad",
+                optAllTypes: "Todos los Tipos",
+                optHouses: "Casas / Residencia",
+                optVillas: "Villas de Lujo",
+                optLand: "Terrenos / Lotes",
+                optFarms: "Fincas / Quintas",
+                filterLocLabel: "Ubicación",
+                optAllLocs: "Todas las Ubicaciones",
+                filterPriceLabel: "Precio Máximo (USD)",
+                optAnyPrice: "Cualquier Precio",
+                trustTitle1: "Propietario Extranjero 100% Legal",
+                trustDesc1: "Mismos derechos de título que los ciudadanos de CR.",
+                trustTitle2: "Asesoría Legal y Escrow",
+                trustDesc2: "Traspaso de propiedad seguro e impecable.",
+                trustTitle3: "Residencia de Inversionista",
+                trustDesc3: "Califica a residencia desde $150k USD.",
+                trustTitle4: "Atención Bilingüe Personal",
+                trustDesc4: "Acompañamiento de principio a fin.",
+                secPropSub: "Catálogo Exclusivo",
+                secPropTitle: "Propiedades Disponibles",
+                secPropDesc: "Explora nuestro inventario verificado en San Carlos y zonas turísticas de Costa Rica.",
+                tabAll: "Todas",
+                tabFeatured: "Destacadas",
+                tabSold: "Vendidas / Histórico",
+                noPropsTitle: "No se encontraron propiedades",
+                noPropsDesc: "Intenta cambiando los filtros o contáctanos directamente para buscar propiedades personalizadas.",
+                whySub: "Oportunidad de Inversión",
+                whyTitle: "¿Por qué comprar propiedades en Costa Rica y San Carlos?",
+                whyDesc: "Costa Rica es reconocida mundialmente por su estabilidad política, seguridad legal para inversionistas extranjeros y calidad de vida excepcional (Pura Vida). San Carlos y La Fortuna se han consolidado como el epicentro de inversión turística y de retiro.",
+                whyPoint1Title: "Alto Retorno de Inversión (Airbnb / Rentas)",
+                whyPoint1Desc: "Propiedades cerca del Volcán Arenal generan ingresos sostenidos en dólares todo el año.",
+                whyPoint2Title: "Derechos Garantizados para Estadounidenses",
+                whyPoint2Desc: "No requiere ser residente ni ciudadano para adquirir propiedades registradas a su nombre.",
+                whyPoint3Title: "San Carlos: La Joya Inmobiliaria de Costa Rica",
+                whyPoint3Desc: "Clima ideal, aguas termales, plusvalía sostenida y cercanía a infraestructura de primer nivel.",
+                whyCTA: "Solicitar Asesoría de Inversión Gratis",
+                aboutBadge: "Fundador & Asesor Inmobiliario",
+                aboutText: "Con base en San Carlos, Costa Rica, en Costa Rica Urban Home nos dedicamos a conectar compradores locales e internacionales con las mejores oportunidades inmobiliarias del país. Brindamos un acompañamiento transparente, honesto y directo para asegurar que cada transacción sea una excelente inversión y un proceso libre de estrés.",
+                contactSub: "Contacto Directo",
+                contactTitle: "¿Quieres Comprar o Vender una Propiedad?",
+                contactDesc: "Escríbenos o llámanos hoy mismo. Si eres un comprador de Estados Unidos o Costa Rica, te ayudamos a encontrar la propiedad ideal según tu presupuesto y preferencias.",
+                lblPhone: "Teléfono Principal",
+                lblAltPhone: "Teléfono Secundario",
+                lblEmail: "Correo Electrónico",
+                formTitle: "Envíanos un Mensaje",
+                formSub: "Te responderemos a la brevedad posible.",
+                formName: "Nombre Completo",
+                formEmail: "Correo Electrónico",
+                formPhone: "Teléfono / WhatsApp",
+                formInterest: "Interés Principal",
+                optInterest1: "Deseo comprar una casa / villa",
+                optInterest2: "Deseo comprar un terreno / quinta",
+                optInterest3: "Busco propiedad de inversión (ROI)",
+                optInterest4: "Quiero que vendan mi propiedad",
+                formMsg: "Mensaje",
+                btnSendMsg: "Enviar Consulta por WhatsApp",
+                footerOwnerAccess: "Acceso Propietario",
+                adminModalTitle: "Acceso de Propietario",
+                adminModalSub: "Ingresa el PIN de administrador para agregar o eliminar propiedades.",
+                addModalTitle: "Agregar Nueva Propiedad",
+                addModalSub: "Esta propiedad aparecerá inmediatamente en el catálogo público.",
+                lblBeds: "Habitaciones",
+                lblBaths: "Baños",
+                lblArea: "Área",
+                lblDesc: "Descripción",
+                btnInquireWA: "Consultar por WhatsApp",
+                btnCallAgent: "Llamar al Agente (+506 8850 7858)",
+                addTitleEs: "Título de la Propiedad (Español)",
+                addTitleEn: "Título (Inglés para compradores de EE. UU.)",
+                addPrice: "Precio (USD $)",
+                addType: "Tipo de Propiedad",
+                addLocation: "Ubicación",
+                addBeds: "Habitaciones",
+                addBaths: "Baños",
+                addArea: "Área / Lote (m²)",
+                addImage: "Imagen de la Propiedad",
+                addImageHint: "Selecciona una imagen directamente desde la galería de tu dispositivo. Máximo 10 MB.",
+                addDesc: "Descripción de la Propiedad",
+                addDescEn: "Descripción de la Propiedad (Inglés)",
+                addFeatured: "Marcar como propiedad Destacada",
+                addCancel: "Cancelar",
+                addPublish: "Publicar Propiedad"
+            },
+            en: {
+                adminLogin: "Owner Login",
+                adminActiveMsg: "Owner Admin Mode Active - You can add or manage listings.",
+                addPropertyBtn: "+ Add Property",
+                navProperties: "Properties",
+                navWhyCR: "Invest in Costa Rica",
+                navAbout: "About Us",
+                navContact: "Contact",
+                contactWhatsApp: "Direct WhatsApp",
+                heroBadge: "Luxury & Investment Properties in Costa Rica",
+                heroTitle: "Luxury Homes, Estates & Investment Land in Costa Rica",
+                heroSub: "Specialized in guiding US buyers and locals. Find your home or high-ROI investment in San Carlos, La Fortuna, and prime growth zones.",
+                filterTypeLabel: "Property Type",
+                optAllTypes: "All Types",
+                optHouses: "Houses / Residences",
+                optVillas: "Luxury Villas",
+                optLand: "Lots & Land",
+                optFarms: "Farms & Estates",
+                filterLocLabel: "Location",
+                optAllLocs: "All Locations",
+                filterPriceLabel: "Max Price (USD)",
+                optAnyPrice: "Any Price",
+                trustTitle1: "100% Legal US Ownership",
+                trustDesc1: "Same fee-simple title rights as CR citizens.",
+                trustTitle2: "Legal & Escrow Support",
+                trustDesc2: "Safe, transparent property transfers.",
+                trustTitle3: "Investor Residency",
+                trustDesc3: "Qualify for residency starting at $150k USD.",
+                trustTitle4: "Bilingual Personal Service",
+                trustDesc4: "Full end-to-end guidance in English.",
+                secPropSub: "Exclusive Catalog",
+                secPropTitle: "Available Properties",
+                secPropDesc: "Explore our verified listings in San Carlos and top Costa Rican destinations.",
+                tabAll: "All",
+                tabFeatured: "Featured",
+                tabSold: "Sold / Archive",
+                noPropsTitle: "No properties found",
+                noPropsDesc: "Try adjusting filters or contact us directly for personalized property scouting.",
+                whySub: "Investment Opportunity",
+                whyTitle: "Why Buy Property in Costa Rica & San Carlos?",
+                whyDesc: "Costa Rica is world-renowned for its political stability, legal safety for US buyers, and Pura Vida lifestyle. San Carlos and La Fortuna are top hotspots for eco-tourism, rental yields, and retirement.",
+                whyPoint1Title: "High ROI (Airbnb & Vacation Rentals)",
+                whyPoint1Desc: "Properties near Arenal Volcano generate reliable USD rental income year-round.",
+                whyPoint2Title: "Guaranteed Rights for Foreigners",
+                whyPoint2Desc: "No residency or citizenship required to own registered fee-simple property.",
+                whyPoint3Title: "San Carlos: Costa Rica's Green Heart",
+                whyPoint3Desc: "Ideal climate, natural hot springs, fertile land, and top medical infrastructure.",
+                whyCTA: "Request Free Investment Consultation",
+                aboutBadge: "Founder & Real Estate Advisor",
+                aboutText: "Based in San Carlos, Costa Rica, at Costa Rica Urban Home we connect local and US buyers with premier Costa Rican real estate opportunities. We offer honest, direct, transparent guidance to make every purchase seamless and profitable.",
+                contactSub: "Direct Contact",
+                contactTitle: "Looking to Buy or Sell Property in Costa Rica?",
+                contactDesc: "Call or message us today. Whether you are a US buyer or local client, we will help you find the ideal property.",
+                lblPhone: "Primary Phone",
+                lblAltPhone: "Secondary Phone",
+                lblEmail: "Email Address",
+                formTitle: "Send Us a Message",
+                formSub: "We will get back to you promptly.",
+                formName: "Full Name",
+                formEmail: "Email Address",
+                formPhone: "Phone / WhatsApp",
+                formInterest: "Primary Interest",
+                optInterest1: "Looking to buy a house / villa",
+                optInterest2: "Looking to buy land / farm",
+                optInterest3: "Seeking ROI investment property",
+                optInterest4: "I want to sell my property",
+                formMsg: "Message",
+                btnSendMsg: "Send Inquiry via WhatsApp",
+                footerOwnerAccess: "Owner Access",
+                adminModalTitle: "Owner Portal Access",
+                adminModalSub: "Enter administrator PIN to add or delete listings.",
+                addModalTitle: "Add New Listing",
+                addModalSub: "This property will instantly appear in the public catalog.",
+                lblBeds: "Bedrooms",
+                lblBaths: "Bathrooms",
+                lblArea: "Area",
+                lblDesc: "Description",
+                btnInquireWA: "Inquire on WhatsApp",
+                btnCallAgent: "Call Agent (+506 8850 7858)",
+                addTitleEs: "Property Title (Spanish)",
+                addTitleEn: "Title (English for US buyers)",
+                addPrice: "Price (USD $)",
+                addType: "Property Type",
+                addLocation: "Location",
+                addBeds: "Bedrooms",
+                addBaths: "Bathrooms",
+                addArea: "Area / Lot (m²)",
+                addImage: "Property Image",
+                addImageHint: "Select an image directly from your device gallery. Maximum 10 MB.",
+                addDesc: "Property Description",
+                addDescEn: "Property Description (English)",
+                addFeatured: "Mark as Featured Property",
+                addCancel: "Cancel",
+                addPublish: "Publish Property"
+            }
+        };
+
+        window.appState = {
+            currentLang: localStorage.getItem('cr_urban_home_lang') || 'es',
+            currentCurrency: localStorage.getItem('cr_urban_home_currency') || 'USD',
+            exchangeRate: 515,
+            isAdmin: false,
+            activeTab: 'all',
+            properties: [],
+            apiAvailable: false,
+            adminPin: null
+        };
+
+        const defaultProperties = [
+            {
+                id: 'p1', title_es: "Villa de Lujo con Vista al Volcán Arenal", title_en: "Luxury Villa with Arenal Volcano View", price: 385000, type: "Villa", location: "La Fortuna", beds: 3, baths: 3.5, area: "2,400 m²",
+                image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=800&auto=format&fit=crop",
+                desc: "Espectacular propiedad rodeada de naturaleza tropical. Cuenta con piscina privada, acabados en maderas preciosas de Costa Rica y vista despejada al Volcán Arenal. Ideal para residencia o rentas de alto rendimiento en Airbnb.",
+                desc_en: "Spectacular property surrounded by tropical nature. Features a private pool, Costa Rican hardwood finishes, and unobstructed Arenal Volcano views. Ideal as a residence or high-performing Airbnb rental.", featured: true, status: "active"
+            },
+            {
+                id: 'p2', title_es: "Quinta Campestre en San Carlos con Río", title_en: "Countryside Farm in San Carlos with River Frontage", price: 215000, type: "Finca", location: "San Carlos", beds: 4, baths: 2, area: "5,000 m²",
+                image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=800&auto=format&fit=crop",
+                desc: "Hermosa quinta con casa principal de estilo rústico moderno. Frutales en producción, senderos privados y acceso a río de agua cristalina. Excelente ubicación a 15 min de Ciudad Quesada.",
+                desc_en: "Beautiful countryside estate with a modern-rustic main house, producing fruit trees, private trails, and access to a crystal-clear river. Excellent location just 15 minutes from Ciudad Quesada.", featured: true, status: "active"
+            },
+            {
+                id: 'p3', title_es: "Lote Listo para Construir en Residencial Privado", title_en: "Build-Ready Lot in Private Gated Community", price: 85000, type: "Terreno", location: "San Carlos", beds: 0, baths: 0, area: "850 m²",
+                image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800&auto=format&fit=crop",
+                desc: "Terreno plano con todos los servicios públicos instalados (agua, electricidad, internet de fibra óptica). Seguridad 24/7 y acceso pavimentado.",
+                desc_en: "Flat lot with all public utilities installed, including water, electricity, and fiber-optic internet. 24/7 security and paved access.", featured: false, status: "active"
+            },
+            {
+                id: 'p4', title_es: "Casa Moderna Familiar de 2 Plantas", title_en: "Modern 2-Story Family Home", price: 195000, type: "Casa", location: "Valle Central", beds: 3, baths: 2.5, area: "320 m²",
+                image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop",
+                desc: "Casa contemporánea con amplios espacios integrados, cocina con sobre de granito, cochera para 2 vehículos y patio trasero techado.",
+                desc_en: "Contemporary home with spacious open-plan areas, granite countertops, a two-car garage, and a covered backyard.", featured: false, status: "active"
+            }
+        ];
+
+        const API = '/api';
+        const typeLabels = {
+            es: { Casa:'Casa / Residencia', Villa:'Villa de Lujo', Terreno:'Terreno / Lote', Finca:'Finca / Quinta' },
+            en: { Casa:'House / Residence', Villa:'Luxury Villa', Terreno:'Lot / Land', Finca:'Farm / Estate' }
+        };
+        const locationLabels = {
+            es: { 'San Carlos':'San Carlos / Ciudad Quesada', 'La Fortuna':'La Fortuna / Arenal', 'Valle Central':'Valle Central', 'Playa / Costa':'Guanacaste / Costa' },
+            en: { 'San Carlos':'San Carlos / Ciudad Quesada', 'La Fortuna':'La Fortuna / Arenal', 'Valle Central':'Central Valley', 'Playa / Costa':'Guanacaste / Coast' }
+        };
+
+        function escapeHTML(value) {
+            return String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+        }
+        function safeUrl(value) {
+            try { const raw=String(value||'').trim(); if(raw.startsWith('/uploads/') && !raw.includes('..')) return raw; const u = new URL(raw); return ['http:','https:'].includes(u.protocol) ? u.href : ''; } catch { return ''; }
+        }
+        function saveLocalProperties() {
+            try { localStorage.setItem('cr_urban_home_props_v4', JSON.stringify(window.appState.properties)); } catch(e) { console.warn('Local storage unavailable', e); }
+        }
+        function readLocalProperties() {
+            try {
+                const stored = localStorage.getItem('cr_urban_home_props_v4');
+                if (stored) return JSON.parse(stored);
+            } catch(e) { console.warn('Local property data invalid', e); }
+            return defaultProperties.map(p => ({...p}));
+        }
+        async function loadProperties() {
+            try {
+                const res = await fetch(`${API}/properties`, { cache:'no-store' });
+                if (!res.ok) throw new Error(`API ${res.status}`);
+                const data = await res.json();
+                if (!Array.isArray(data.properties)) throw new Error('Invalid API response');
+                window.appState.properties = data.properties;
+                window.appState.apiAvailable = true;
+                saveLocalProperties();
+            } catch (e) {
+                window.appState.apiAvailable = false;
+                window.appState.properties = readLocalProperties();
+                console.warn('Running in local fallback mode:', e.message);
+            }
+            renderProperties();
+        }
+        async function apiRequest(path, options={}) {
+            const headers = {'Content-Type':'application/json', ...(options.headers||{})};
+            if (window.appState.adminPin) headers['X-Admin-PIN'] = window.appState.adminPin;
+            const res = await fetch(`${API}${path}`, {...options, headers});
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+            return data;
+        }
+        function syncLocal() { saveLocalProperties(); }
+
+        function setLanguage(lang) {
+            if (!i18n[lang]) return;
+            window.appState.currentLang = lang;
+            localStorage.setItem('cr_urban_home_lang', lang);
+            const enBtn=document.getElementById('lang-en'), esBtn=document.getElementById('lang-es');
+            if(enBtn) enBtn.className=lang==='en'?'px-2 py-0.5 rounded font-bold text-slate-950 bg-amber-400 shadow':'px-2 py-0.5 rounded text-slate-400 hover:text-white';
+            if(esBtn) esBtn.className=lang==='es'?'px-2 py-0.5 rounded font-bold text-slate-950 bg-amber-400 shadow':'px-2 py-0.5 rounded text-slate-400 hover:text-white';
+            document.documentElement.lang=lang;
+            document.querySelectorAll('[data-i18n]').forEach(el=>{ const key=el.getAttribute('data-i18n'); if(i18n[lang][key]!==undefined) el.textContent=i18n[lang][key]; });
+            document.querySelectorAll('#filter-location option').forEach(opt=>{ if(locationLabels[lang][opt.value]) opt.textContent=locationLabels[lang][opt.value]; });
+            document.querySelectorAll('#filter-type option').forEach(opt=>{ if(typeLabels[lang][opt.value]) opt.textContent=typeLabels[lang][opt.value]; });
+            const adminBtnText=document.getElementById('admin-btn-text'); if(adminBtnText) adminBtnText.textContent=window.appState.isAdmin?(lang==='en'?'Admin Active':'Modo Admin'):i18n[lang].adminLogin;
+            renderProperties();
+            if(!document.getElementById('details-modal').classList.contains('hidden') && window.appState.openPropertyId) openDetailsModal(window.appState.openPropertyId);
+        }
+
+        function setCurrency(curr) {
+            if(!['USD','CRC'].includes(curr)) return;
+            window.appState.currentCurrency=curr; localStorage.setItem('cr_urban_home_currency',curr);
+            const usdBtn=document.getElementById('curr-usd'), crcBtn=document.getElementById('curr-crc');
+            if(usdBtn) usdBtn.className=curr==='USD'?'px-2.5 py-0.5 rounded font-bold text-slate-950 bg-amber-400 shadow':'px-2.5 py-0.5 rounded text-slate-400 hover:text-white';
+            if(crcBtn) crcBtn.className=curr==='CRC'?'px-2.5 py-0.5 rounded font-bold text-slate-950 bg-amber-400 shadow':'px-2.5 py-0.5 rounded text-slate-400 hover:text-white';
+            renderProperties();
+            if(window.appState.openPropertyId && !document.getElementById('details-modal').classList.contains('hidden')) openDetailsModal(window.appState.openPropertyId);
+        }
+        function formatPrice(usdAmount) {
+            const amount=Number(usdAmount)||0;
+            if(window.appState.currentCurrency==='CRC') return `₡${Math.round(amount*window.appState.exchangeRate).toLocaleString('es-CR',{maximumFractionDigits:0})}`;
+            return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(amount)+' USD';
+        }
+        function setTab(tab) {
+            window.appState.activeTab=tab;
+            ['all','featured','sold'].forEach(t=>{ const btn=document.getElementById(`tab-${t}`); if(btn) btn.className=t===tab?'px-4 py-2 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 whitespace-nowrap shadow':'px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300 whitespace-nowrap'; });
+            renderProperties();
+        }
+        function filterProperties(){ renderProperties(); }
+        function propertyMatches(p) {
+            const typeFilter=document.getElementById('filter-type')?.value||'all', locFilter=document.getElementById('filter-location')?.value||'all', priceFilter=document.getElementById('filter-price')?.value||'all';
+            if(window.appState.activeTab==='featured' && !p.featured) return false;
+            if(window.appState.activeTab==='sold' && p.status!=='sold') return false;
+            if(window.appState.activeTab!=='sold' && p.status==='sold') return false;
+            if(typeFilter!=='all' && p.type!==typeFilter) return false;
+            if(locFilter!=='all' && !String(p.location||'').toLowerCase().includes(locFilter.toLowerCase())) return false;
+            if(priceFilter!=='all' && Number(p.price)>Number(priceFilter)) return false;
+            return true;
+        }
+        function renderProperties() {
+            const grid=document.getElementById('properties-grid'), noMsg=document.getElementById('no-properties-msg'); if(!grid) return;
+            const lang=window.appState.currentLang, filtered=window.appState.properties.filter(propertyMatches); grid.innerHTML='';
+            if(!filtered.length){ noMsg?.classList.remove('hidden'); return; } noMsg?.classList.add('hidden');
+            filtered.forEach(p=>{
+                const title=lang==='en'&&p.title_en?p.title_en:p.title_es, isSold=p.status==='sold', image=safeUrl(p.image)||'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=800&auto=format&fit=crop';
+                const card=document.createElement('div'); card.className='glass-card rounded-2xl border border-slate-800 overflow-hidden shadow-xl property-card-hover flex flex-col relative';
+                const waText=encodeURIComponent(`${lang==='en'?'Hello Luis, I am interested in:':'Hola Luis, estoy interesado en:'} ${title} (${p.location})`);
+                card.innerHTML=`
+                    <div class="relative h-56 bg-slate-900 overflow-hidden cursor-pointer" onclick="openDetailsModal('${escapeHTML(p.id)}')">
+                        <img src="${escapeHTML(image)}" alt="${escapeHTML(title)}" class="w-full h-full object-cover transition duration-700 hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=800&auto=format&fit=crop'">
+                        <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">${isSold?`<span class="bg-red-800 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow">${lang==='en'?'SOLD':'VENDIDA'}</span>`:`<span class="bg-emerald-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider shadow border border-emerald-400/30">${lang==='en'?'FOR SALE':'EN VENTA'}</span>`}${p.featured?`<span class="bg-amber-400 text-slate-950 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider shadow"><i class="fa-solid fa-star"></i> ${lang==='en'?'Featured':'Destacada'}</span>`:''}</div>
+                        <div class="absolute bottom-3 right-3 bg-slate-950/80 backdrop-blur-md text-slate-200 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-slate-700 shadow-sm"><i class="fa-solid fa-location-dot text-amber-400"></i> ${escapeHTML(p.location)}</div>
+                    </div>
+                    <div class="p-5 flex-grow flex flex-col justify-between"><div><div class="text-xl font-bold text-amber-400 mb-1">${formatPrice(p.price)}</div><h3 class="font-serif font-bold text-white text-base leading-snug line-clamp-2 cursor-pointer hover:text-amber-300 transition" onclick="openDetailsModal('${escapeHTML(p.id)}')">${escapeHTML(title)}</h3></div>
+                    <div class="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-300 font-medium">${p.beds?`<span><i class="fa-solid fa-bed text-emerald-400"></i> ${p.beds} ${lang==='en'?'Beds':'Habs'}</span>`:''}${p.baths?`<span><i class="fa-solid fa-bath text-emerald-400"></i> ${p.baths} ${lang==='en'?'Baths':'Baños'}</span>`:''}${p.area?`<span><i class="fa-solid fa-vector-square text-emerald-400"></i> ${escapeHTML(p.area)}</span>`:''}</div>
+                    <div class="mt-4 flex gap-2"><button onclick="openDetailsModal('${escapeHTML(p.id)}')" class="w-full bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold py-2 rounded-xl text-xs transition border border-slate-700">${lang==='en'?'View Details':'Ver Detalles'}</button><a href="https://wa.me/50688507858?text=${waText}" target="_blank" rel="noopener" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-2 rounded-xl text-xs transition flex items-center justify-center shadow"><i class="fa-brands fa-whatsapp text-sm text-amber-300"></i></a></div>
+                    ${window.appState.isAdmin?`<div class="mt-3 pt-3 border-t border-amber-500/40 bg-amber-950/35 -mx-5 -mb-5 p-3 flex justify-between items-center rounded-b-2xl"><span class="text-[10px] font-bold text-amber-300 uppercase"><i class="fa-solid fa-shield text-amber-400"></i> Admin:</span><div class="flex gap-1.5"><button onclick="toggleSoldProperty('${escapeHTML(p.id)}')" class="px-2 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded text-[10px] font-bold transition">${isSold?(lang==='en'?'Activate':'Activar'):(lang==='en'?'Sold':'Vendida')}</button><button onclick="deleteProperty('${escapeHTML(p.id)}')" class="px-2 py-1 bg-red-800 hover:bg-red-900 text-white rounded text-[10px] font-bold transition flex items-center gap-1"><i class="fa-solid fa-trash"></i> ${lang==='en'?'Delete':'Eliminar'}</button></div></div>`:''}</div>`;
+                grid.appendChild(card);
+            });
+        }
+
+        function openAdminModal(){ document.getElementById('admin-modal').classList.remove('hidden'); document.getElementById('admin-pin').value=''; document.getElementById('admin-error-msg').classList.add('hidden'); setTimeout(()=>document.getElementById('admin-pin')?.focus(),50); }
+        function closeAdminModal(){ document.getElementById('admin-modal').classList.add('hidden'); }
+        async function verifyAdminPIN(e){
+            e.preventDefault();
+            const pin=document.getElementById('admin-pin').value.trim();
+            const err=document.getElementById('admin-error-msg');
+            try {
+                const res=await fetch(`${API}/admin/verify`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pin})});
+                const data=await res.json().catch(()=>({}));
+                if(!res.ok || !data.ok) throw new Error('invalid');
+                window.appState.adminPin=pin;
+                window.appState.isAdmin=true;
+                closeAdminModal();
+                document.getElementById('admin-active-bar').classList.remove('hidden');
+                document.getElementById('admin-btn-text').textContent=window.appState.currentLang==='en'?'Admin Active':'Modo Admin';
+                renderProperties();
+            } catch(err) {
+                window.appState.isAdmin=false;
+                window.appState.adminPin=null;
+                err=document.getElementById('admin-error-msg');
+                err.textContent=window.appState.currentLang==='en'?'Incorrect PIN or server unavailable.':'PIN incorrecto o servidor no disponible.';
+                err.classList.remove('hidden');
+            }
+        }
+        function logoutAdmin(){ window.appState.isAdmin=false; window.appState.adminPin=null; document.getElementById('admin-active-bar').classList.add('hidden'); document.getElementById('admin-btn-text').textContent=i18n[window.appState.currentLang].adminLogin; renderProperties(); }
+        function openAddPropertyModal(){ if(!window.appState.isAdmin){openAdminModal();return;} document.getElementById('add-modal').classList.remove('hidden'); }
+        function closeAddPropertyModal(){ document.getElementById('add-modal').classList.add('hidden'); }
+        async function uploadPropertyImage(){
+            const fileInput=document.getElementById('prop-image-file');
+            const file=fileInput?.files?.[0];
+            if(!file) throw new Error(window.appState.currentLang==='en'?'Please select a property image from your gallery.':'Selecciona una imagen de la galería.');
+            if(!file.type.startsWith('image/')) throw new Error(window.appState.currentLang==='en'?'Please select a valid image.':'Selecciona una imagen válida.');
+            if(file.size>10*1024*1024) throw new Error(window.appState.currentLang==='en'?'The image must be 10 MB or smaller.':'La imagen debe pesar 10 MB o menos.');
+            const fd=new FormData(); fd.append('image',file,file.name);
+            const res=await fetch(`${API}/upload-image`,{method:'POST',headers:{'X-Admin-PIN':window.appState.adminPin||''},body:fd});
+            const data=await res.json().catch(()=>({}));
+            if(!res.ok) throw new Error(data.error||'No se pudo subir la imagen.');
+            return data.url;
+        }
+        async function saveNewProperty(e){
+            e.preventDefault(); if(!window.appState.isAdmin) return openAdminModal();
+            const newProp={id:'prop_'+Date.now(),title_es:document.getElementById('prop-title-es').value.trim(),title_en:document.getElementById('prop-title-en').value.trim(),price:Number(document.getElementById('prop-price').value),type:document.getElementById('prop-type').value,location:document.getElementById('prop-location').value.trim(),beds:Number(document.getElementById('prop-beds').value)||0,baths:Number(document.getElementById('prop-baths').value)||0,area:document.getElementById('prop-area').value.trim()||'N/A',image:'',desc:document.getElementById('prop-desc').value.trim(),desc_en:document.getElementById('prop-desc-en')?.value.trim()||document.getElementById('prop-desc').value.trim(),featured:document.getElementById('prop-featured').checked,status:'active'};
+            const file=document.getElementById('prop-image-file')?.files?.[0];
+            if(!newProp.price || !newProp.title_es || !newProp.title_en || !file){ alert(window.appState.currentLang==='en'?'Complete the required fields and select a property image.':'Completa los campos obligatorios y selecciona una imagen de la propiedad.'); return; }
+            const btn=document.getElementById('btn-save-prop'); btn.disabled=true; btn.dataset.originalText=btn.textContent; btn.textContent=window.appState.currentLang==='en'?'Uploading...':'Subiendo...';
+            try {
+                if(window.appState.apiAvailable){
+                    newProp.image=await uploadPropertyImage();
+                    const data=await apiRequest('/properties',{method:'POST',body:JSON.stringify(newProp)}); window.appState.properties=data.properties;
+                } else {
+                    const reader=new FileReader();
+                    newProp.image=await new Promise((resolve,reject)=>{reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error('No se pudo leer la imagen.'));reader.readAsDataURL(file);});
+                    window.appState.properties.unshift(newProp); syncLocal();
+                }
+                closeAddPropertyModal(); e.target.reset(); document.getElementById('prop-image').value=''; document.getElementById('prop-image-preview').src=''; document.getElementById('prop-image-preview-wrap').classList.add('hidden'); renderProperties();
+            } catch(err){ alert((window.appState.currentLang==='en'?'Could not save property: ':'No se pudo guardar la propiedad: ')+err.message); }
+            finally{btn.disabled=false; btn.textContent=btn.dataset.originalText||btn.textContent;}
+        }
+        async function deleteProperty(id){
+            if(!window.appState.isAdmin) return openAdminModal();
+            if(!confirm(window.appState.currentLang==='en'?'Are you sure you want to delete this property?':'¿Estás seguro de eliminar esta propiedad?')) return;
+            try { if(window.appState.apiAvailable){ const data=await apiRequest('/properties/'+encodeURIComponent(id),{method:'DELETE'}); window.appState.properties=data.properties; } else { window.appState.properties=window.appState.properties.filter(p=>p.id!==id); syncLocal(); } renderProperties(); }
+            catch(err){ alert((window.appState.currentLang==='en'?'Could not delete property: ':'No se pudo eliminar la propiedad: ')+err.message); }
+        }
+        async function toggleSoldProperty(id){
+            if(!window.appState.isAdmin) return openAdminModal(); const p=window.appState.properties.find(item=>item.id===id); if(!p)return;
+            const next=p.status==='sold'?'active':'sold';
+            try { if(window.appState.apiAvailable){ const data=await apiRequest('/properties/'+encodeURIComponent(id),{method:'PUT',body:JSON.stringify({status:next})}); window.appState.properties=data.properties; } else { p.status=next; syncLocal(); } renderProperties(); if(window.appState.openPropertyId===id && !document.getElementById('details-modal').classList.contains('hidden')) openDetailsModal(id); }
+            catch(err){ alert((window.appState.currentLang==='en'?'Could not update property: ':'No se pudo actualizar la propiedad: ')+err.message); }
+        }
+        function openDetailsModal(id){
+            const p=window.appState.properties.find(item=>item.id===id); if(!p)return; window.appState.openPropertyId=id;
+            const lang=window.appState.currentLang,title=lang==='en'&&p.title_en?p.title_en:p.title_es;
+            document.getElementById('modal-img').src=safeUrl(p.image)||''; document.getElementById('modal-img').alt=title; document.getElementById('modal-title').textContent=title; document.getElementById('modal-location').textContent=(locationLabels[lang][p.location]||p.location)+' • '+(typeLabels[lang][p.type]||p.type); document.getElementById('modal-price').textContent=formatPrice(p.price); document.getElementById('modal-beds').textContent=p.beds||'-'; document.getElementById('modal-baths').textContent=p.baths||'-'; document.getElementById('modal-area').textContent=p.area||'-'; document.getElementById('modal-desc').textContent=lang==='en'&&p.desc_en?p.desc_en:(p.desc||'');
+            const badge=document.getElementById('modal-status-badge'),sold=p.status==='sold'; badge.textContent=sold?(lang==='en'?'SOLD':'VENDIDA'):(lang==='en'?'FOR SALE':'EN VENTA'); badge.className=sold?'absolute top-4 left-4 bg-red-800 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow':'absolute top-4 left-4 bg-emerald-600 text-white text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow border border-emerald-400/30';
+            const waText=encodeURIComponent(`${lang==='en'?'Hello Luis, I would like more information about':'Hola Luis, me interesa tener más información de'} ${title} (${p.location}) - ${formatPrice(p.price)}`); document.getElementById('modal-wa-btn').href=`https://wa.me/50688507858?text=${waText}`; document.getElementById('details-modal').classList.remove('hidden');
+        }
+        function closeDetailsModal(){ document.getElementById('details-modal').classList.add('hidden'); window.appState.openPropertyId=null; }
+        function handleContactSubmit(e){
+            e.preventDefault(); const name=document.getElementById('contact-name').value.trim(),email=document.getElementById('contact-email').value.trim(),phone=document.getElementById('contact-phone').value.trim(),interest=document.getElementById('contact-interest').value,msg=document.getElementById('contact-msg').value.trim();
+            const text=encodeURIComponent(`${window.appState.currentLang==='en'?'Hello Costa Rica Urban Home! My name is':'Hola Costa Rica Urban Home! Mi nombre es'} ${name}.\nEmail: ${email}\nTel: ${phone}\nInterest: ${interest}\nMessage: ${msg}`); window.open(`https://wa.me/50688507858?text=${text}`,'_blank','noopener');
+        }
+
+        function setupImagePicker(){
+            const input=document.getElementById('prop-image-file'); if(!input) return;
+            input.addEventListener('change',()=>{
+                const file=input.files?.[0], wrap=document.getElementById('prop-image-preview-wrap'), img=document.getElementById('prop-image-preview');
+                if(!file){wrap.classList.add('hidden');img.src='';return;}
+                if(file.size>10*1024*1024){alert(window.appState.currentLang==='en'?'The image must be 10 MB or smaller.':'La imagen debe pesar 10 MB o menos.');input.value='';wrap.classList.add('hidden');return;}
+                const reader=new FileReader(); reader.onload=()=>{img.src=reader.result;wrap.classList.remove('hidden');}; reader.readAsDataURL(file);
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            setLanguage(window.appState.currentLang);
+            setCurrency(window.appState.currentCurrency);
+            document.getElementById('year').textContent = new Date().getFullYear();
+            document.addEventListener('keydown', e => { if(e.key === 'Escape'){ closeAdminModal(); closeAddPropertyModal(); closeDetailsModal(); } });
+            ['admin-modal','add-modal','details-modal'].forEach(id => { const modal=document.getElementById(id); if(modal) modal.addEventListener('click',e=>{ if(e.target===modal) modal.classList.add('hidden'); }); });
+            await loadProperties();
+            setupImagePicker();
+        });
+    </script>
+</body>
+</html>
